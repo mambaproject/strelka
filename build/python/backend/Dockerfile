@@ -5,10 +5,11 @@ ARG YARA_VERSION=3.11.0
 ARG YARA_PYTHON_VERSION=3.11.0
 
 # Copy Strelka files
-COPY ./src/python/ /strelka/
-COPY ./build/python/backend/requirements.txt /strelka/requirements.txt
-COPY ./build/python/backend/setup.py /strelka/setup.py
+COPY ./strelka/src/python/ /strelka/
+COPY ./strelka/build/python/backend/requirements.txt /strelka/requirements.txt
+COPY ./strelka/build/python/backend/setup.py /strelka/setup.py
 
+#USER root
 # Update packages
 RUN apt-get -qq update && \
 # Install build packages
@@ -79,5 +80,8 @@ RUN apt-get -qq update && \
 # Assign permissions to Strelka scan result logging directory
     mkdir /var/log/strelka/ && \
     chgrp -R 0 /var/log/strelka/ && \
-    chmod -R g=u /var/log/strelka/
+    chmod -R g=u /var/log/strelka/ && \
+    mkdir /etc/strelka/ && \
+    chgrp -R 0 /etc/strelka/ && \
+    chmod -R g=u /etc/strelka/ 
 USER 1001

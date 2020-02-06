@@ -2,9 +2,9 @@ FROM ubuntu:18.04
 LABEL maintainer "Target Brands, Inc. TTS-CFC-OpenSource@target.com"
 
 # Copy Strelka files
-COPY ./src/python/ /strelka/
-COPY ./build/python/mmrpc/requirements.txt /strelka/requirements.txt
-COPY ./build/python/mmrpc/setup.py /strelka/setup.py
+COPY ./strelka/src/python/ /strelka/
+COPY ./strelka/build/python/mmrpc/requirements.txt /strelka/requirements.txt
+COPY ./strelka/build/python/mmrpc/setup.py /strelka/setup.py
 
 # Update packages
 RUN apt-get -qq update && \
