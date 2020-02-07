@@ -10,9 +10,11 @@ throughput:
   chunk: 32768
   delay: 0s
 files:
+  #patterns:
+  #  - '/glob/to/your/files/*'
   patterns:
-    - '/glob/to/your/files/*'
-  delete: false
+    - '/data/uploads/*'
+  delete: true
   gatekeeper: true
 response:
-  log: 'strelka.log'
+  log: '/var/log/strelka/strelka.log'

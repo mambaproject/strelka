@@ -12,5 +12,5 @@ gatekeeper:
   pool: 100
   read: 10s
   ttl: 1h
-response:
-  log: "/var/log/strelka/strelka.log"
+#response:
+#  log: "/var/log/strelka/strelka.log"
