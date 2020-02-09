@@ -4,7 +4,7 @@ conn:
   cert: ''
   timeout:
     dial: 5s
-    file: 1m
+    file: 15m
 throughput:
   concurrency: 8
   chunk: 32768
@@ -14,7 +14,7 @@ files:
   #  - '/glob/to/your/files/*'
   patterns:
     - '/data/uploads/*'
-  delete: true
+  delete: false
   gatekeeper: true
 response:
   log: '/var/log/strelka/strelka.log'

@@ -40,6 +40,8 @@ RUN apt-get -qq update && \
 # Install Python packages
     pip3 install -r /strelka/requirements.txt && \
     pip3 install --index-url https://lief-project.github.io/packages --trusted-host lief.quarkslab.com lief && \
+    pip3 install stringsifter && \
+    pip3 install virustotal-api && \
 # Install YARA
     cd /tmp/ && \
     curl -OL https://github.com/VirusTotal/yara/archive/v$YARA_VERSION.tar.gz && \
@@ -83,5 +85,11 @@ RUN apt-get -qq update && \
     chmod -R g=u /var/log/strelka/ && \
     mkdir /etc/strelka/ && \
     chgrp -R 0 /etc/strelka/ && \
-    chmod -R g=u /etc/strelka/ 
+    chmod -R g=u /etc/strelka/  && \
+    mkdir /etc/yara/ && \
+    chgrp -R 0 /etc/yara/ && \
+    chmod -R g=u /etc/yara/ && \
+    mkdir /scanworkdir/ && \
+    chgrp -R 0 /scanworkdir/ && \
+    chmod -R g=u /scanworkdir/ 
 USER 1001

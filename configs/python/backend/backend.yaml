@@ -4,7 +4,7 @@ limits:
   time_to_live: 900
   max_depth: 15
   distribution: 600
-  scanner: 150
+  scanner: 3600
 coordinator:
   #addr: 'strelka_coordinator_1:6379'
   addr: 'coordinator:6379'
@@ -365,15 +365,16 @@ scanners:
         flavors:
           - 'text/x-ruby'
       priority: 5
-  #'ScanStrings':
-  #  - positive:
-  #      flavors:
-  #        - 'application/x-dosexec'
-  #        - 'mz_file'
-  #    priority: 5
-  #    options:
-  #      limit: 1000
-  #      scanner_timeout: 3600
+  'ScanStrings':
+    - positive:
+        flavors:
+          - 'application/x-dosexec'
+          - 'mz_file'
+      priority: 5
+      options:
+        limit: 1000
+        scanner_timeout: 3600
+        outdir: '/scanworkdir/'
   'ScanSwf':
     - positive:
         flavors:
