@@ -365,6 +365,15 @@ scanners:
         flavors:
           - 'text/x-ruby'
       priority: 5
+  #'ScanStrings':
+  #  - positive:
+  #      flavors:
+  #        - 'application/x-dosexec'
+  #        - 'mz_file'
+  #    priority: 5
+  #    options:
+  #      limit: 1000
+  #      scanner_timeout: 3600
   'ScanSwf':
     - positive:
         flavors:
