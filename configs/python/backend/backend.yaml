@@ -375,6 +375,13 @@ scanners:
         limit: 1000
         scanner_timeout: 3600
         outdir: '/scanworkdir/'
+  'ScanSuspiciousStrings':
+    - positive:
+        flavors:
+          - '*'
+      priority: 5
+      options:
+        location: '/etc/suspicious_rules/'
   'ScanSwf':
     - positive:
         flavors:

@@ -16,6 +16,7 @@ RUN apt-get -qq update && \
     apt-get install --no-install-recommends -qq \
     automake \
     build-essential \
+    ca-certificates \
     curl \
     gcc \
     git \
@@ -35,7 +36,10 @@ RUN apt-get -qq update && \
     redis-server \
     tesseract-ocr \
     unrar \
+    unzip \
     upx \
+    xvfb \
+	libgl1-mesa-glx \
     jq && \
 # Install Python packages
     pip3 install -r /strelka/requirements.txt && \
@@ -91,5 +95,20 @@ RUN apt-get -qq update && \
     chmod -R g=u /etc/yara/ && \
     mkdir /scanworkdir/ && \
     chgrp -R 0 /scanworkdir/ && \
-    chmod -R g=u /scanworkdir/ 
+    chmod -R g=u /scanworkdir/ && \
+    mkdir /etc/suspicious_rules/ && \
+    chgrp -R 0 /etc/suspicious_rules/ && \
+    chmod -R g=u /etc/suspicious_rules/ 
+
+# Install wine and related packages
+# alpine: https://github.com/monokrome/docker-wine/blob/master/Dockerfile
+# https://medium.com/faun/running-windows-app-headless-in-docker-15ff008f2f16
+RUN dpkg --add-architecture i386 \
+		&& apt-get update \
+		&& apt-get install -y --no-install-recommends \
+				wine-stable \
+				winetricks \
+				wine32 \
+		&& rm -rf /var/lib/apt/lists/*
+
 USER 1001
