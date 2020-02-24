@@ -17,6 +17,7 @@ RUN apt-get -qq update && \
     automake \
     build-essential \
     ca-certificates \
+    clamav \
     curl \
     gcc \
     git \
@@ -110,5 +111,8 @@ RUN dpkg --add-architecture i386 \
 				winetricks \
 				wine32 \
 		&& rm -rf /var/lib/apt/lists/*
+
+# https://kifarunix.com/how-to-install-and-use-clamav-antivirus-on-ubuntu-18-04/
+RUN freshclam
 
 USER 1001
