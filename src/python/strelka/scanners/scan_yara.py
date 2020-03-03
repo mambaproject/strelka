@@ -43,7 +43,7 @@ class ScanYara(strelka.Scanner):
             self.flags.append('compiling_error')
 
         self.event['matches'] = []
-        self.event['meta'] = []
+        self.event['strings'] = []
 
         try:
             if self.compiled_yara is not None:
@@ -51,14 +51,23 @@ class ScanYara(strelka.Scanner):
                 for match in yara_matches:
                     self.event['matches'].append(match.rule)
 
-                    for k, v in match.meta.items():
-                        if meta and k not in meta:
-                            continue
-
-                        self.event['meta'].append({
+                    #for k, v in match.meta.items():
+                    #    if meta and k not in meta:
+                    #        continue
+                    #    self.event['meta'].append({
+                    #        'rule': match.rule,
+                    #        'identifier': k,
+                    #        'value': v,
+                    #    })
+                    
+                    # 'strings': [(81L, '$a', 'abc'), (141L, '$b', 'def')]
+                    # (<offset>, <string identifier>, <string data>)
+                    for s in match.strings:
+                        self.event['strings'].append({
                             'rule': match.rule,
-                            'identifier': k,
-                            'value': v,
+                            'offset': s[0],
+                            'identifier': s[1],
+                            'data': s[2],
                         })
 
         except (yara.Error, yara.TimeoutError):
