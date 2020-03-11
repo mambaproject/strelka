@@ -9,7 +9,7 @@ COPY ./strelka/src/python/ /strelka/
 COPY ./strelka/build/python/backend/requirements.txt /strelka/requirements.txt
 COPY ./strelka/build/python/backend/setup.py /strelka/setup.py
 
-#USER root
+USER root
 # Update packages
 RUN apt-get -qq update && \
 # Install build packages
@@ -115,4 +115,4 @@ RUN dpkg --add-architecture i386 \
 # https://kifarunix.com/how-to-install-and-use-clamav-antivirus-on-ubuntu-18-04/
 RUN freshclam
 
-USER 1001
+#USER 1001
