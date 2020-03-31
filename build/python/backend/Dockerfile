@@ -33,6 +33,9 @@ RUN apt-get -qq update && \
     libimage-exiftool-perl \
     libmagic-dev \
     libssl-dev \
+    libjansson-dev \
+    flex \
+    bison \
     python3-setuptools \
     redis-server \
     tesseract-ocr \
@@ -53,7 +56,7 @@ RUN apt-get -qq update && \
     tar -zxvf v$YARA_VERSION.tar.gz && \
     cd yara-$YARA_VERSION/ && \
     ./bootstrap.sh && \
-    ./configure --with-crypto --enable-dotnet --enable-magic && \
+    ./configure --with-crypto --enable-dotnet --enable-magic --enable-cuckoo && \
     make && make install && make check && \
 # Install yara-python
     cd /tmp/ && \
