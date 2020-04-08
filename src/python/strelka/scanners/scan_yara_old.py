@@ -4,7 +4,7 @@ import yara
 
 from strelka import strelka
 
-class ScanYara(strelka.Scanner):
+class ScanYaraOld(strelka.Scanner):
     """Scans files with YARA.
 
     Attributes:
@@ -28,10 +28,13 @@ class ScanYara(strelka.Scanner):
         try:
             if self.compiled_yara is None:
                 if os.path.isdir(location):
+                    yara_filepaths = {}
                     #globbed_yara_paths = glob.iglob(f'{location}/**/*.yar*', recursive=True)
                     globbed_yara_paths = glob.iglob(f'{location}/*.yar*', recursive=False)
-                    yara_filepaths = {f'namespace_{i}':entry for (i, entry) in enumerate(globbed_yara_paths)}
+                    for (idx, entry) in enumerate(globbed_yara_paths):
+                        yara_filepaths[f'namespace_{idx}'] = entry
                     self.compiled_yara = yara.compile(filepaths=yara_filepaths)
+
                 else:
                     self.compiled_yara = yara.compile(filepath=location)
 
@@ -39,28 +42,32 @@ class ScanYara(strelka.Scanner):
             self.flags.append('compiling_error')
 
         self.event['matches'] = []
-        self.event['tags'] = []
-        #self.event['meta'] = []
+        self.event['strings'] = []
 
         try:
             if self.compiled_yara is not None:
                 yara_matches = self.compiled_yara.match(data=data)
                 for match in yara_matches:
                     self.event['matches'].append(match.rule)
-                    if match.tags:
-                        for tag in match.tags:
-                            if not tag in self.event['tags']:
-                                self.event['tags'].append(tag)
 
                     #for k, v in match.meta.items():
                     #    if meta and k not in meta:
                     #        continue
-
                     #    self.event['meta'].append({
                     #        'rule': match.rule,
                     #        'identifier': k,
                     #        'value': v,
                     #    })
+                    
+                    # 'strings': [(81L, '$a', 'abc'), (141L, '$b', 'def')]
+                    # (<offset>, <string identifier>, <string data>)
+                    for s in match.strings:
+                        self.event['strings'].append({
+                            'rule': match.rule,
+                            'offset': s[0],
+                            'identifier': s[1],
+                            'data': s[2],
+                        })
 
         except (yara.Error, yara.TimeoutError):
             self.flags.append('scanning_error')
