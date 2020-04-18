@@ -5,7 +5,7 @@ conn:
     dial: 5s
     file: 1m
 throughput:
-  concurrency: 8
+  concurrency: 10
   chunk: 32768
   delay: 0s
 files:
